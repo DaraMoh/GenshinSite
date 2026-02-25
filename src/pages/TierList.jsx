@@ -253,7 +253,7 @@ export default function TierList() {
             className="inline-block transition-all duration-300"
             style={{
               fontFamily: "'Cinzel', serif",
-              fontSize: '10px',
+              fontSize: '13px',
               letterSpacing: '3px',
               textTransform: 'uppercase',
               padding: '12px 32px',
