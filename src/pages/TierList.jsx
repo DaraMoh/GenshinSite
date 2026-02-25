@@ -29,7 +29,7 @@ function SectionHeading({ title, subtitle }) {
         <div
           style={{
             fontFamily: "'Cinzel', serif",
-            fontSize: '22px',
+            fontSize: '28px',
             fontWeight: 700,
             letterSpacing: '6px',
             textTransform: 'uppercase',
@@ -40,7 +40,7 @@ function SectionHeading({ title, subtitle }) {
         </div>
         <div style={{ height: '1px', width: '80px', background: 'linear-gradient(270deg, transparent, #b89830)' }} />
       </div>
-      <div style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: '14px', color: '#c4b48a', letterSpacing: '2px' }}>
+      <div style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: '17px', color: '#c4b48a', letterSpacing: '2px' }}>
         {subtitle}
       </div>
     </div>
@@ -193,7 +193,7 @@ function RoleColumn({ role, tierData }) {
         <div
           style={{
             fontFamily: "'Cinzel', serif",
-            fontSize: '14px',
+            fontSize: '17px',
             fontWeight: 700,
             letterSpacing: '3px',
             textTransform: 'uppercase',
@@ -253,7 +253,7 @@ export default function TierList() {
             className="inline-block transition-all duration-300"
             style={{
               fontFamily: "'Cinzel', serif",
-              fontSize: '10px',
+              fontSize: '13px',
               letterSpacing: '3px',
               textTransform: 'uppercase',
               padding: '12px 32px',
