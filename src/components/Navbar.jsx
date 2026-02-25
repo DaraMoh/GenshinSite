@@ -64,7 +64,7 @@ export default function Navbar() {
                 textShadow: '0 0 30px rgba(201,162,39,0.3)',
               }}
             >
-              Teyvat
+              Placeholder
             </span>
             <span
               className="block mt-1"
@@ -76,7 +76,7 @@ export default function Navbar() {
                 textTransform: 'uppercase',
               }}
             >
-              Chronicle
+              Name
             </span>
           </Link>
 

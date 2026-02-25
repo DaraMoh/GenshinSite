@@ -36,7 +36,8 @@ export default function Home() {
             textTransform: 'uppercase',
           }}
         >
-          Fan Compendium &middot; {characters.length} Characters
+          Fan-Made Genshin Compendium
+          {/*&middot; {characters.length} Characters*/}
         </div>
 
         <div className="flex items-center justify-center gap-5 mb-7">
@@ -68,7 +69,7 @@ export default function Home() {
             letterSpacing: '2px',
           }}
         >
-          The complete traveler's compendium of Teyvat
+          Placeholder Desc.
         </p>
       </section>
 
