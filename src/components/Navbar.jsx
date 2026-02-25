@@ -33,7 +33,7 @@ function NavLink({ to, label, isActive }) {
   );
 }
 
-function TierListDropdown({ isActive }) {
+function NavDropdown({ to, label, isActive, items }) {
   const [open, setOpen] = useState(false);
   const timeoutRef = useRef(null);
 
@@ -53,7 +53,7 @@ function TierListDropdown({ isActive }) {
       onMouseLeave={handleLeave}
     >
       <Link
-        to="/tier-list"
+        to={to}
         className="relative pb-1"
         style={{
           ...linkStyle,
@@ -62,7 +62,7 @@ function TierListDropdown({ isActive }) {
         onMouseEnter={(e) => { if (!isActive) e.target.style.color = '#e8d068'; }}
         onMouseLeave={(e) => { if (!isActive) e.target.style.color = '#c4b48a'; }}
       >
-        Tier List
+        {label}
         {isActive && (
           <span
             className="absolute bottom-0 left-0 w-full"
@@ -82,34 +82,37 @@ function TierListDropdown({ isActive }) {
             background: 'rgba(10, 8, 7, 0.98)',
             border: '1px solid #2e2416',
             padding: '8px 0',
-            minWidth: '180px',
+            minWidth: '210px',
             zIndex: 100,
           }}
         >
-          <Link
-            to="/tier-list-maker"
-            style={{
-              display: 'block',
-              padding: '10px 20px',
-              fontFamily: "'Cinzel', serif",
-              fontSize: '13px',
-              letterSpacing: '2px',
-              textTransform: 'uppercase',
-              color: '#c4b48a',
-              textDecoration: 'none',
-              transition: 'all 0.2s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = '#e8d068';
-              e.currentTarget.style.background = 'rgba(201,162,39,0.05)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = '#c4b48a';
-              e.currentTarget.style.background = 'transparent';
-            }}
-          >
-            Tier Maker
-          </Link>
+          {items.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              style={{
+                display: 'block',
+                padding: '10px 20px',
+                fontFamily: "'Cinzel', serif",
+                fontSize: '13px',
+                letterSpacing: '2px',
+                textTransform: 'uppercase',
+                color: '#c4b48a',
+                textDecoration: 'none',
+                transition: 'all 0.2s',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#e8d068';
+                e.currentTarget.style.background = 'rgba(201,162,39,0.05)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = '#c4b48a';
+                e.currentTarget.style.background = 'transparent';
+              }}
+            >
+              {item.label}
+            </Link>
+          ))}
         </div>
       )}
     </div>
@@ -165,9 +168,23 @@ export default function Navbar() {
           </Link>
 
           <div className="flex items-center gap-6 md:gap-9">
-            <TierListDropdown isActive={isActive('/tier-list')} />
+            <NavDropdown
+              to="/tier-list"
+              label="Tier List"
+              isActive={isActive('/tier-list')}
+              items={[{ to: '/tier-list-maker', label: 'Tier Maker' }]}
+            />
             <span style={{ color: '#b89830', fontSize: '10px' }}>&#9670;</span>
-            <NavLink to="/endgame" label="Endgame" isActive={isActive('/endgame')} />
+            <NavDropdown
+              to="/endgame"
+              label="Endgame"
+              isActive={isActive('/endgame')}
+              items={[
+                { to: '/endgame/spiral-abyss', label: 'Spiral Abyss' },
+                { to: '/endgame/imaginarium-theatre', label: 'Imaginarium Theatre' },
+                { to: '/endgame/stygian-onslaught', label: 'Stygian Onslaught' },
+              ]}
+            />
           </div>
         </div>
       </div>
