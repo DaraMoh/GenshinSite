@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
+import { toPng } from 'html-to-image';
 import {
   DndContext,
   DragOverlay,
@@ -26,6 +27,8 @@ export default function TierListMaker() {
   });
 
   const [activeId, setActiveId] = useState(null);
+  const [exporting, setExporting] = useState(false);
+  const tierListRef = useRef(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -105,6 +108,25 @@ export default function TierListMaker() {
     });
   };
 
+  const exportAsPng = useCallback(async () => {
+    if (!tierListRef.current || exporting) return;
+    setExporting(true);
+    try {
+      const dataUrl = await toPng(tierListRef.current, {
+        backgroundColor: '#0a0807',
+        pixelRatio: 2,
+      });
+      const link = document.createElement('a');
+      link.download = 'tier-list.png';
+      link.href = dataUrl;
+      link.click();
+    } catch (err) {
+      console.error('Export failed:', err);
+    } finally {
+      setExporting(false);
+    }
+  }, [exporting]);
+
   const activeCharacter = activeId
     ? characters.find((char) => char.id === activeId)
     : null;
@@ -135,29 +157,56 @@ export default function TierListMaker() {
               Create your custom tier list with drag and drop
             </div>
           </div>
-          <button
-            onClick={resetTierList}
-            style={{
-              fontFamily: "'Cinzel', serif",
-              fontSize: '13px',
-              letterSpacing: '3px',
-              textTransform: 'uppercase',
-              padding: '10px 24px',
-              background: 'transparent',
-              border: '1px solid #a04040',
-              color: '#e06060',
-              cursor: 'pointer',
-              transition: 'all 0.3s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(224,96,96,0.12)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'transparent';
-            }}
-          >
-            Reset All
-          </button>
+          <div className="flex gap-4">
+            <button
+              onClick={exportAsPng}
+              disabled={exporting}
+              style={{
+                fontFamily: "'Cinzel', serif",
+                fontSize: '13px',
+                letterSpacing: '3px',
+                textTransform: 'uppercase',
+                padding: '10px 24px',
+                background: 'transparent',
+                border: '1px solid #b89830',
+                color: '#e8d068',
+                cursor: exporting ? 'wait' : 'pointer',
+                transition: 'all 0.3s',
+                opacity: exporting ? 0.5 : 1,
+              }}
+              onMouseEnter={(e) => {
+                if (!exporting) e.currentTarget.style.background = 'rgba(201,162,39,0.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent';
+              }}
+            >
+              {exporting ? 'Exporting...' : 'Export PNG'}
+            </button>
+            <button
+              onClick={resetTierList}
+              style={{
+                fontFamily: "'Cinzel', serif",
+                fontSize: '13px',
+                letterSpacing: '3px',
+                textTransform: 'uppercase',
+                padding: '10px 24px',
+                background: 'transparent',
+                border: '1px solid #a04040',
+                color: '#e06060',
+                cursor: 'pointer',
+                transition: 'all 0.3s',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(224,96,96,0.12)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent';
+              }}
+            >
+              Reset All
+            </button>
+          </div>
         </div>
 
         {/* Tip */}
@@ -182,9 +231,11 @@ export default function TierListMaker() {
           onDragCancel={handleDragCancel}
         >
           <div className="max-w-[1000px] mx-auto mb-10">
-            {['S+', 'S', 'A+', 'A', 'B', 'C', 'D'].map((tier) => (
-              <TierRow key={tier} tier={tier} characterIds={tierList[tier]} />
-            ))}
+            <div ref={tierListRef} style={{ padding: '16px', background: '#0a0807' }}>
+              {['S+', 'S', 'A+', 'A', 'B', 'C', 'D'].map((tier) => (
+                <TierRow key={tier} tier={tier} characterIds={tierList[tier]} />
+              ))}
+            </div>
           </div>
 
           <div className="max-w-[1000px] mx-auto">
