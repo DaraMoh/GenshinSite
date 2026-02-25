@@ -51,10 +51,10 @@ export default function DraggableCharacter({ character, isDragging = false }) {
         )}
       </div>
       <div>
-        <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '11px', fontWeight: 600, letterSpacing: '0.5px', color: '#f0e6c8' }}>
+        <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '14px', fontWeight: 600, letterSpacing: '0.5px', color: '#f0e6c8' }}>
           {character.name}
         </div>
-        <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '10px', fontWeight: 400, color: '#c4b48a' }}>
+        <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '12px', fontWeight: 400, color: '#c4b48a' }}>
           {character.element} &middot; {character.weapon}
         </div>
       </div>

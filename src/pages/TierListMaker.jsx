@@ -15,7 +15,9 @@ import DraggableCharacter from '../components/DraggableCharacter';
 
 export default function TierListMaker() {
   const [tierList, setTierList] = useState({
+    'S+': [],
     'S': [],
+    'A+': [],
     'A': [],
     'B': [],
     'C': [],
@@ -92,7 +94,9 @@ export default function TierListMaker() {
 
   const resetTierList = () => {
     setTierList({
+      'S+': [],
       'S': [],
+      'A+': [],
       'A': [],
       'B': [],
       'C': [],
@@ -109,14 +113,14 @@ export default function TierListMaker() {
     <div className="relative z-[1] min-h-screen">
       <section className="relative py-16 px-6 md:px-12">
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
-          <div className="text-center md:text-left">
+        <div className="flex flex-col items-center mb-12 gap-6">
+          <div className="text-center">
             <div className="flex items-center gap-4 mb-3">
               <div style={{ height: '1px', width: '80px', background: 'linear-gradient(90deg, transparent, #b89830)' }} />
               <div
                 style={{
                   fontFamily: "'Cinzel', serif",
-                  fontSize: '22px',
+                  fontSize: '28px',
                   fontWeight: 700,
                   letterSpacing: '6px',
                   textTransform: 'uppercase',
@@ -127,7 +131,7 @@ export default function TierListMaker() {
               </div>
               <div style={{ height: '1px', width: '80px', background: 'linear-gradient(270deg, transparent, #b89830)' }} />
             </div>
-            <div style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: '14px', color: '#c4b48a', letterSpacing: '2px' }}>
+            <div style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: '17px', color: '#c4b48a', letterSpacing: '2px' }}>
               Create your custom tier list with drag and drop
             </div>
           </div>
@@ -135,7 +139,7 @@ export default function TierListMaker() {
             onClick={resetTierList}
             style={{
               fontFamily: "'Cinzel', serif",
-              fontSize: '10px',
+              fontSize: '13px',
               letterSpacing: '3px',
               textTransform: 'uppercase',
               padding: '10px 24px',
@@ -165,7 +169,7 @@ export default function TierListMaker() {
             padding: '16px 24px',
           }}
         >
-          <span style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: '14px', color: '#c4b48a' }}>
+          <span style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: '17px', color: '#c4b48a' }}>
             Drag characters from the pool below into the tier rows. You can reorder within tiers too.
           </span>
         </div>
@@ -178,7 +182,7 @@ export default function TierListMaker() {
           onDragCancel={handleDragCancel}
         >
           <div className="max-w-[1000px] mx-auto mb-10">
-            {['S', 'A', 'B', 'C', 'D'].map((tier) => (
+            {['S+', 'S', 'A+', 'A', 'B', 'C', 'D'].map((tier) => (
               <TierRow key={tier} tier={tier} characterIds={tierList[tier]} />
             ))}
           </div>

@@ -14,7 +14,7 @@ function FilterPill({ label, active, onClick }) {
       onClick={onClick}
       style={{
         fontFamily: "'Inter', sans-serif",
-        fontSize: '9px',
+        fontSize: '12px',
         fontWeight: active ? 600 : 400,
         letterSpacing: '1px',
         padding: '3px 10px',
@@ -71,14 +71,14 @@ export default function CharacterPool({ characterIds }) {
     >
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: '16px', fontWeight: 700, letterSpacing: '4px', color: '#e8d068', textTransform: 'uppercase' }}>
+          <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: '20px', fontWeight: 700, letterSpacing: '4px', color: '#e8d068', textTransform: 'uppercase' }}>
             Character Pool
           </h2>
-          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: '13px', color: '#c4b48a', marginTop: '4px' }}>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: '16px', color: '#c4b48a', marginTop: '4px' }}>
             Drag characters from here to rank them
           </p>
         </div>
-        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '12px', color: '#c4b48a' }}>
+        <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '14px', color: '#c4b48a' }}>
           {visibleIds.length} / {characterIds.length} unranked
         </span>
       </div>
@@ -99,7 +99,7 @@ export default function CharacterPool({ characterIds }) {
             border: '1px solid #2e2416',
             color: '#f0e6c8',
             fontFamily: "'Inter', sans-serif",
-            fontSize: '12px',
+            fontSize: '14px',
             outline: 'none',
             transition: 'border-color 0.3s',
             marginBottom: '8px',
@@ -108,7 +108,7 @@ export default function CharacterPool({ characterIds }) {
           onBlur={(e) => { e.target.style.borderColor = '#2e2416'; }}
         />
         <div className="flex items-center gap-2 flex-wrap">
-          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '9px', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase', color: '#c4b48a' }}>
+          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '12px', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase', color: '#c4b48a' }}>
             Element
           </span>
           {ELEMENTS.map((el) => (
@@ -116,7 +116,7 @@ export default function CharacterPool({ characterIds }) {
           ))}
         </div>
         <div className="flex items-center gap-2 flex-wrap">
-          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '9px', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase', color: '#c4b48a' }}>
+          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '12px', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase', color: '#c4b48a' }}>
             Weapon
           </span>
           {WEAPONS.map((w) => (
@@ -124,7 +124,7 @@ export default function CharacterPool({ characterIds }) {
           ))}
         </div>
         <div className="flex items-center gap-2 flex-wrap">
-          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '9px', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase', color: '#c4b48a' }}>
+          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '12px', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase', color: '#c4b48a' }}>
             Rarity
           </span>
           {RARITIES.map((r) => (
@@ -138,16 +138,16 @@ export default function CharacterPool({ characterIds }) {
           <div className="flex flex-wrap gap-2.5">
             {characterIds.length === 0 ? (
               <div className="w-full text-center py-12">
-                <div style={{ fontFamily: "'Cinzel', serif", fontSize: '16px', color: '#e8d068', letterSpacing: '3px', marginBottom: '8px' }}>
+                <div style={{ fontFamily: "'Cinzel', serif", fontSize: '18px', color: '#e8d068', letterSpacing: '3px', marginBottom: '8px' }}>
                   All characters ranked
                 </div>
-                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: '14px', color: '#c4b48a' }}>
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: '16px', color: '#c4b48a' }}>
                   Well done, Traveler
                 </div>
               </div>
             ) : visibleIds.length === 0 ? (
               <div className="w-full text-center py-8">
-                <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '13px', color: '#c4b48a' }}>
+                <div style={{ fontFamily: "'Inter', sans-serif", fontSize: '15px', color: '#c4b48a' }}>
                   No matches for current filters
                 </div>
               </div>

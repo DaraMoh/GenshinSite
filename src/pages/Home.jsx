@@ -30,7 +30,7 @@ export default function Home() {
           className="mb-5"
           style={{
             fontFamily: "'Cinzel', serif",
-            fontSize: '10px',
+            fontSize: '13px',
             letterSpacing: '8px',
             color: '#e8d068',
             textTransform: 'uppercase',
@@ -63,7 +63,7 @@ export default function Home() {
           style={{
             fontFamily: "'Cormorant Garamond', serif",
             fontStyle: 'italic',
-            fontSize: '18px',
+            fontSize: '22px',
             color: '#c4b48a',
             letterSpacing: '2px',
           }}
@@ -82,7 +82,7 @@ export default function Home() {
             <div
               style={{
                 fontFamily: "'Cinzel', serif",
-                fontSize: '22px',
+                fontSize: '28px',
                 fontWeight: 700,
                 letterSpacing: '6px',
                 textTransform: 'uppercase',
@@ -127,7 +127,7 @@ export default function Home() {
               <h3
                 style={{
                   fontFamily: "'Cinzel', serif",
-                  fontSize: '14px',
+                  fontSize: '18px',
                   fontWeight: 700,
                   letterSpacing: '4px',
                   textTransform: 'uppercase',
@@ -137,7 +137,7 @@ export default function Home() {
               >
                 {card.title}
               </h3>
-              <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '15px', color: '#c4b48a', lineHeight: 1.6 }}>
+              <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '18px', color: '#c4b48a', lineHeight: 1.6 }}>
                 {card.desc}
               </p>
             </Link>
@@ -149,13 +149,13 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="relative text-center py-12 px-12" style={{ borderTop: '1px solid #2e2416' }}>
-        <div style={{ color: '#b89830', fontSize: '12px', letterSpacing: '10px', marginBottom: '20px' }}>
+        <div style={{ color: '#b89830', fontSize: '14px', letterSpacing: '10px', marginBottom: '20px' }}>
           &#9670; &#9670; &#9670; &#9670; &#9670;
         </div>
-        <p style={{ fontFamily: "'Cinzel', serif", fontSize: '9px', letterSpacing: '4px', color: '#c4b48a', textTransform: 'uppercase', opacity: 0.5 }}>
+        <p style={{ fontFamily: "'Cinzel', serif", fontSize: '12px', letterSpacing: '4px', color: '#c4b48a', textTransform: 'uppercase', opacity: 0.5 }}>
           Teyvat Chronicle &mdash; A fan-made compendium
         </p>
-        <p style={{ fontFamily: "'Cinzel', serif", fontSize: '9px', letterSpacing: '4px', color: '#c4b48a', textTransform: 'uppercase', opacity: 0.5, marginTop: '8px' }}>
+        <p style={{ fontFamily: "'Cinzel', serif", fontSize: '12px', letterSpacing: '4px', color: '#c4b48a', textTransform: 'uppercase', opacity: 0.5, marginTop: '8px' }}>
           Genshin Impact&trade; is a trademark of HoYoverse. All rights reserved.
         </p>
       </footer>

@@ -4,11 +4,13 @@ import DraggableCharacter from './DraggableCharacter';
 import { characters } from '../data/characters';
 
 const TIER_META = {
-  S: { label: 'Legendary', cls: 'tier-s' },
-  A: { label: 'Superior', cls: 'tier-a' },
-  B: { label: 'Capable', cls: 'tier-b' },
-  C: { label: 'Average', cls: 'tier-c' },
-  D: { label: 'Niche', cls: 'tier-d' },
+  'S+': { label: '', cls: 'tier-splus' },
+  S: { label: '', cls: 'tier-s' },
+  'A+': { label: '', cls: 'tier-aplus' },
+  A: { label: '', cls: 'tier-a' },
+  B: { label: '', cls: 'tier-b' },
+  C: { label: '', cls: 'tier-c' },
+  D: { label: '', cls: 'tier-d' },
 };
 
 export default function TierRow({ tier, characterIds }) {
@@ -43,13 +45,13 @@ export default function TierRow({ tier, characterIds }) {
           flexShrink: 0,
         }}
       >
-        <span className="tier-letter" style={{ fontSize: '28px', fontWeight: 700, lineHeight: 1, fontFamily: "'Cinzel', serif" }}>
+        <span className="tier-letter" style={{ fontSize: '34px', fontWeight: 700, lineHeight: 1, fontFamily: "'Cinzel', serif" }}>
           {tier}
         </span>
-        <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '9px', letterSpacing: '2px', textTransform: 'uppercase', opacity: 0.6, color: '#f0e6c8' }}>
+        <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '11px', letterSpacing: '2px', textTransform: 'uppercase', opacity: 0.6, color: '#f0e6c8' }}>
           {meta.label}
         </span>
-        <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '10px', color: '#c4b48a' }}>
+        <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '12px', color: '#c4b48a' }}>
           {characterIds.length}
         </span>
       </div>
@@ -57,7 +59,7 @@ export default function TierRow({ tier, characterIds }) {
         <SortableContext items={characterIds} strategy={horizontalListSortingStrategy}>
           <div className="flex flex-wrap gap-2.5">
             {characterIds.length === 0 ? (
-              <div style={{ fontStyle: 'italic', color: '#c4b48a', fontSize: '13px', padding: '16px 0' }}>
+              <div style={{ fontStyle: 'italic', color: '#c4b48a', fontSize: '15px', padding: '16px 0' }}>
                 {isOver ? 'Drop here...' : 'Drag characters here'}
               </div>
             ) : (

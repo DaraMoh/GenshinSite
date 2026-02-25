@@ -51,7 +51,7 @@ function CharCard({ character }) {
             position: 'absolute',
             top: '8px',
             right: '8px',
-            fontSize: '8px',
+            fontSize: '10px',
             color: '#e8d068',
             zIndex: 1,
           }}
@@ -72,7 +72,7 @@ function CharCard({ character }) {
         <div
           style={{
             fontFamily: "'Cinzel', serif",
-            fontSize: '13px',
+            fontSize: '16px',
             fontWeight: 700,
             letterSpacing: '2px',
             color: '#f0e6c8',
@@ -82,10 +82,10 @@ function CharCard({ character }) {
           {character.name}
         </div>
         <div className="flex items-center justify-between">
-          <span className={`el-${elClass}`} style={{ fontFamily: "'Inter', sans-serif", fontSize: '11px', fontWeight: 500, padding: '2px 8px', border: '1px solid' }}>
+          <span className={`el-${elClass}`} style={{ fontFamily: "'Inter', sans-serif", fontSize: '13px', fontWeight: 500, padding: '2px 8px', border: '1px solid' }}>
             {character.element}
           </span>
-          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '11px', fontWeight: 500, color: '#c4b48a' }}>
+          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '13px', fontWeight: 500, color: '#c4b48a' }}>
             {character.weapon}
           </span>
         </div>
@@ -97,7 +97,7 @@ function CharCard({ character }) {
 function FilterRow({ label, options, value, onChange, renderOption }) {
   return (
     <div className="flex items-center gap-3 flex-wrap justify-center">
-      <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '10px', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase', color: '#c4b48a', minWidth: '60px' }}>
+      <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '13px', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase', color: '#c4b48a', minWidth: '60px' }}>
         {label}
       </span>
       <div className="flex gap-1 flex-wrap">
@@ -107,7 +107,7 @@ function FilterRow({ label, options, value, onChange, renderOption }) {
             onClick={() => onChange(opt)}
             style={{
               fontFamily: "'Inter', sans-serif",
-              fontSize: '10px',
+              fontSize: '13px',
               fontWeight: value === opt ? 600 : 400,
               letterSpacing: '1px',
               padding: '5px 14px',
@@ -162,7 +162,7 @@ export default function Characters() {
             <div
               style={{
                 fontFamily: "'Cinzel', serif",
-                fontSize: '22px',
+                fontSize: '28px',
                 fontWeight: 700,
                 letterSpacing: '6px',
                 textTransform: 'uppercase',
@@ -173,8 +173,8 @@ export default function Characters() {
             </div>
             <div style={{ height: '1px', width: '80px', background: 'linear-gradient(270deg, transparent, #b89830)' }} />
           </div>
-          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: '14px', color: '#c4b48a', letterSpacing: '2px' }}>
-            All known wielders of Visions across Teyvat
+          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: 'italic', fontSize: '17px', color: '#c4b48a', letterSpacing: '2px' }}>
+            Playable Characters in Genshin Impact
           </div>
         </div>
 
@@ -192,7 +192,7 @@ export default function Characters() {
               border: '1px solid #2e2416',
               color: '#f0e6c8',
               fontFamily: "'Inter', sans-serif",
-              fontSize: '13px',
+              fontSize: '15px',
               outline: 'none',
               transition: 'border-color 0.3s',
             }}
@@ -210,7 +210,7 @@ export default function Characters() {
 
         {/* Results count */}
         <div className="text-center mb-8">
-          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '12px', color: '#c4b48a' }}>
+          <span style={{ fontFamily: "'Inter', sans-serif", fontSize: '14px', color: '#c4b48a' }}>
             Showing {filteredCharacters.length} character{filteredCharacters.length !== 1 ? 's' : ''}
           </span>
         </div>

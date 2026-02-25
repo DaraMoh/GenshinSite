@@ -20,7 +20,7 @@ export default function Navbar() {
       }}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="flex items-center justify-between h-[72px]">
+        <div className="flex items-center justify-between h-[80px]">
           <div className="flex items-center gap-6 md:gap-9">
             {navLinks.slice(0, 2).map((link, i) => (
               <span key={link.path} className="flex items-center gap-6 md:gap-9">
@@ -29,7 +29,7 @@ export default function Navbar() {
                   className="relative pb-1"
                   style={{
                     fontFamily: "'Cinzel', serif",
-                    fontSize: '11px',
+                    fontSize: '14px',
                     letterSpacing: '3px',
                     textTransform: 'uppercase',
                     color: isActive(link.path) ? '#e8d068' : '#c4b48a',
@@ -47,7 +47,7 @@ export default function Navbar() {
                     />
                   )}
                 </Link>
-                {i < 1 && <span style={{ color: '#b89830', fontSize: '8px' }}>&#9670;</span>}
+                {i < 1 && <span style={{ color: '#b89830', fontSize: '10px' }}>&#9670;</span>}
               </span>
             ))}
           </div>
@@ -57,7 +57,7 @@ export default function Navbar() {
               className="block leading-none"
               style={{
                 fontFamily: "'Cinzel Decorative', serif",
-                fontSize: '20px',
+                fontSize: '26px',
                 fontWeight: 700,
                 color: '#e8d068',
                 letterSpacing: '4px',
@@ -70,7 +70,7 @@ export default function Navbar() {
               className="block mt-1"
               style={{
                 fontFamily: "'Cinzel', serif",
-                fontSize: '9px',
+                fontSize: '11px',
                 letterSpacing: '6px',
                 color: '#c4b48a',
                 textTransform: 'uppercase',
@@ -88,7 +88,7 @@ export default function Navbar() {
                   className="relative pb-1"
                   style={{
                     fontFamily: "'Cinzel', serif",
-                    fontSize: '11px',
+                    fontSize: '14px',
                     letterSpacing: '3px',
                     textTransform: 'uppercase',
                     color: isActive(link.path) ? '#e8d068' : '#c4b48a',
@@ -106,7 +106,7 @@ export default function Navbar() {
                     />
                   )}
                 </Link>
-                {i < 1 && <span style={{ color: '#b89830', fontSize: '8px' }}>&#9670;</span>}
+                {i < 1 && <span style={{ color: '#b89830', fontSize: '10px' }}>&#9670;</span>}
               </span>
             ))}
           </div>
