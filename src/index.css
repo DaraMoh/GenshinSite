@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Luxury Base Theme ─────────────────────────────────────── */
+
+body {
+  background: #0a0807;
+  color: #f0e6c8;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Element Badge Colors ──────────────────────────────────── */
+
+.el-pyro    { background: rgba(255,120,70,0.12); border-color: rgba(255,120,70,0.4); color: #ffaa88; }
+.el-hydro   { background: rgba(80,170,255,0.12); border-color: rgba(80,170,255,0.4); color: #90c0ff; }
+.el-cryo    { background: rgba(130,220,255,0.12); border-color: rgba(130,220,255,0.4); color: #a0e0ff; }
+.el-electro { background: rgba(190,130,255,0.12); border-color: rgba(190,130,255,0.4); color: #d0a0ff; }
+.el-anemo   { background: rgba(100,220,180,0.12); border-color: rgba(100,220,180,0.4); color: #90e8c0; }
+.el-geo     { background: rgba(255,200,50,0.12); border-color: rgba(255,200,50,0.4); color: #ffd060; }
+.el-dendro  { background: rgba(130,220,80,0.12); border-color: rgba(130,220,80,0.4); color: #a0d860; }
+
+.el-bg-pyro    { background: linear-gradient(160deg, #1a0800, #330d00); }
+.el-bg-hydro   { background: linear-gradient(160deg, #00091a, #001433); }
+.el-bg-cryo    { background: linear-gradient(160deg, #001422, #002a44); }
+.el-bg-electro { background: linear-gradient(160deg, #08001a, #150033); }
+.el-bg-anemo   { background: linear-gradient(160deg, #001a12, #003020); }
+.el-bg-geo     { background: linear-gradient(160deg, #141000, #2a2000); }
+.el-bg-dendro  { background: linear-gradient(160deg, #001200, #002a00); }
+
+/* ── Tier Row Left Border Colors ───────────────────────────── */
+
+.tier-splus::before,
+.tier-s::before,
+.tier-aplus::before,
+.tier-a::before,
+.tier-b::before,
+.tier-c::before,
+.tier-d::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+}
+
+.tier-splus::before { background: #ff6868; box-shadow: 2px 0 12px rgba(255,104,104,0.5); }
+.tier-s::before { background: #f0d860; box-shadow: 2px 0 12px rgba(240,216,96,0.5); }
+.tier-aplus::before { background: #f0a868; box-shadow: 2px 0 12px rgba(240,168,104,0.4); }
+.tier-a::before { background: #e0b898; }
+.tier-b::before { background: #a0c8d0; }
+.tier-c::before { background: #a8c098; }
+.tier-d::before { background: #a0a0c0; }
+
+.tier-splus .tier-letter { color: #ff6868; text-shadow: 0 0 15px rgba(255,104,104,0.5); }
+.tier-s .tier-letter { color: #f0d860; text-shadow: 0 0 15px rgba(240,216,96,0.5); }
+.tier-aplus .tier-letter { color: #f0a868; text-shadow: 0 0 15px rgba(240,168,104,0.4); }
+.tier-a .tier-letter { color: #e0b898; }
+.tier-b .tier-letter { color: #a0c8d0; }
+.tier-c .tier-letter { color: #a8c098; }
+.tier-d .tier-letter { color: #a0a0c0; }
+
+/* ── Ornament Divider ──────────────────────────────────────── */
+
+.ornament-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 0 48px;
+  opacity: 0.4;
+}
+
+.ornament-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c9a227);
+}
+
+.ornament-line-r {
+  background: linear-gradient(270deg, transparent, #c9a227);
+}
+
+.ornament-symbols {
+  color: #b89830;
+  font-size: 12px;
+  letter-spacing: 8px;
+  font-family: 'Cinzel', serif;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────── */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0a0807; }
+::-webkit-scrollbar-thumb { background: #2e2416; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #b89830; }
