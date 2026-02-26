@@ -19,7 +19,7 @@ export const roleTierLists = {
   },
   'Support': {
     'S+': ['furina', 'bennett', 'iansan', 'chevreuse', 'lauma'],
-    S: ['illuga,'],
+    S: ['illuga',],
     'A+': ['nahida', 'xianyun', 'shenhe', 'faruzan'],
     A: [],
     B: [],

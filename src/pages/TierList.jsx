@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, createContext, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { characters } from '../data/characters';
-import { roleTierLists, characterTags, tagDescriptions, partnerConnections } from '../data/tierList';
+import { useTierListData } from '../hooks/useTierListData';
 
 const TAG_STYLES = {
   Expert: { color: '#ff6868', bg: 'rgba(255,104,104,0.12)', border: '#ff6868' },
@@ -22,6 +22,9 @@ const TIER_META = {
   C: { cls: 'tier-c' },
   D: { cls: 'tier-d' },
 };
+
+// Context to pass Supabase data to sub-components without prop drilling
+const TierDataContext = createContext(null);
 
 // Renders a tag description string, replacing {{character-id}} with inline character icons
 function RichDescription({ text }) {
@@ -54,6 +57,7 @@ function RichDescription({ text }) {
 
 function TagDescriptionBox() {
   const [open, setOpen] = useState(false);
+  const { tagDescriptions, partnerConnections } = useContext(TierDataContext);
 
   return (
     <div className="max-w-[1400px] mx-auto mb-8">
@@ -219,6 +223,7 @@ function SectionHeading({ title, subtitle }) {
 }
 
 function CharChip({ character }) {
+  const { characterTags } = useContext(TierDataContext);
   const tags = characterTags[character.id] || [];
   const hasTags = tags.length > 0;
 
@@ -384,70 +389,84 @@ function RoleColumn({ role, tierData }) {
 }
 
 export default function TierList() {
-  return (
-    <div className="relative z-[1] min-h-screen">
-      {/* Hero glow */}
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none"
-        style={{ width: '600px', height: '300px', background: 'radial-gradient(ellipse, rgba(201,162,39,0.06) 0%, transparent 70%)' }}
-      />
+  const { roleTierLists, characterTags, tagDescriptions, partnerConnections, loading } = useTierListData();
 
-      <section className="relative py-16 px-6 md:px-12">
-        <SectionHeading title="Tier List" subtitle="Current meta ranking by role" />
-
-        <TagDescriptionBox />
-
-        <div
-          className="max-w-[1400px] mx-auto"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: '12px',
-          }}
-        >
-          {Object.entries(roleTierLists).map(([role, tierData]) => (
-            <RoleColumn key={role} role={role} tierData={tierData} />
-          ))}
+  if (loading) {
+    return (
+      <div className="relative z-[1] min-h-screen flex items-center justify-center">
+        <div style={{ fontFamily: "'Cinzel', serif", fontSize: '18px', color: '#c4b48a', letterSpacing: '4px' }}>
+          Loading...
         </div>
+      </div>
+    );
+  }
 
-        {/* Responsive stacked layout for smaller screens */}
-        <style>{`
-          @media (max-width: 1200px) {
-            .max-w-\\[1400px\\] { grid-template-columns: repeat(2, 1fr) !important; }
-          }
-          @media (max-width: 640px) {
-            .max-w-\\[1400px\\] { grid-template-columns: 1fr !important; }
-          }
-        `}</style>
+  return (
+    <TierDataContext.Provider value={{ characterTags, tagDescriptions, partnerConnections }}>
+      <div className="relative z-[1] min-h-screen">
+        {/* Hero glow */}
+        <div
+          className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none"
+          style={{ width: '600px', height: '300px', background: 'radial-gradient(ellipse, rgba(201,162,39,0.06) 0%, transparent 70%)' }}
+        />
 
-        <div className="text-center mt-16">
-          <Link
-            to="/tier-list-maker"
-            className="inline-block transition-all duration-300"
+        <section className="relative py-16 px-6 md:px-12">
+          <SectionHeading title="Tier List" subtitle="Current meta ranking by role" />
+
+          <TagDescriptionBox />
+
+          <div
+            className="max-w-[1400px] mx-auto"
             style={{
-              fontFamily: "'Cinzel', serif",
-              fontSize: '13px',
-              letterSpacing: '3px',
-              textTransform: 'uppercase',
-              padding: '12px 32px',
-              background: 'transparent',
-              border: '1px solid #b89830',
-              color: '#e8d068',
-              textDecoration: 'none',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(201,162,39,0.1)';
-              e.currentTarget.style.boxShadow = '0 0 15px rgba(201,162,39,0.15)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'transparent';
-              e.currentTarget.style.boxShadow = 'none';
+              display: 'grid',
+              gridTemplateColumns: 'repeat(4, 1fr)',
+              gap: '12px',
             }}
           >
-            Create Your Own Tier List
-          </Link>
-        </div>
-      </section>
-    </div>
+            {['Main DPS', 'Sub DPS', 'Support', 'Sustain'].map((role) => (
+              <RoleColumn key={role} role={role} tierData={roleTierLists[role] || {}} />
+            ))}
+          </div>
+
+          {/* Responsive stacked layout for smaller screens */}
+          <style>{`
+            @media (max-width: 1200px) {
+              .max-w-\\[1400px\\] { grid-template-columns: repeat(2, 1fr) !important; }
+            }
+            @media (max-width: 640px) {
+              .max-w-\\[1400px\\] { grid-template-columns: 1fr !important; }
+            }
+          `}</style>
+
+          <div className="text-center mt-16">
+            <Link
+              to="/tier-list-maker"
+              className="inline-block transition-all duration-300"
+              style={{
+                fontFamily: "'Cinzel', serif",
+                fontSize: '13px',
+                letterSpacing: '3px',
+                textTransform: 'uppercase',
+                padding: '12px 32px',
+                background: 'transparent',
+                border: '1px solid #b89830',
+                color: '#e8d068',
+                textDecoration: 'none',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(201,162,39,0.1)';
+                e.currentTarget.style.boxShadow = '0 0 15px rgba(201,162,39,0.15)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            >
+              Create Your Own Tier List
+            </Link>
+          </div>
+        </section>
+      </div>
+    </TierDataContext.Provider>
   );
 }
