@@ -1,12 +1,14 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { characters } from '../data/characters';
-import { roleTierLists, characterTags } from '../data/tierList';
+import { roleTierLists, characterTags, tagDescriptions, partnerConnections } from '../data/tierList';
 
 const TAG_STYLES = {
   Expert: { color: '#ff6868', bg: 'rgba(255,104,104,0.12)', border: '#ff6868' },
   'F2P Friendly': { color: '#68d8ff', bg: 'rgba(104,216,255,0.12)', border: '#68d8ff' },
   Flexible: { color: '#a8e068', bg: 'rgba(168,224,104,0.12)', border: '#a8e068' },
   Niche: { color: '#c4b48a', bg: 'rgba(196,180,138,0.12)', border: '#c4b48a' },
+  Partner: { color: '#d898e8', bg: 'rgba(216,152,232,0.12)', border: '#d898e8' },
 };
 
 const DEFAULT_TAG_STYLE = { color: '#e8d068', bg: 'rgba(232,208,104,0.12)', border: '#e8d068' };
@@ -20,6 +22,175 @@ const TIER_META = {
   C: { cls: 'tier-c' },
   D: { cls: 'tier-d' },
 };
+
+// Renders a tag description string, replacing {{character-id}} with inline character icons
+function RichDescription({ text }) {
+  const parts = text.split(/(\{\{[^}]+\}\})/g);
+  return (
+    <span style={{ display: 'inline', alignItems: 'center' }}>
+      {parts.map((part, i) => {
+        const match = part.match(/^\{\{(.+)\}\}$/);
+        if (match) {
+          const char = characters.find((c) => c.id === match[1]);
+          if (char) {
+            return (
+              <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: '3px', verticalAlign: 'middle' }}>
+                <img
+                  src={char.image}
+                  alt={char.name}
+                  style={{ width: '18px', height: '18px', borderRadius: '2px', verticalAlign: 'middle' }}
+                  loading="lazy"
+                />
+                <span style={{ fontWeight: 600, color: '#f0e6c8', fontSize: '13px' }}>{char.name}</span>
+              </span>
+            );
+          }
+        }
+        return <span key={i}>{part}</span>;
+      })}
+    </span>
+  );
+}
+
+function TagDescriptionBox() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="max-w-[1400px] mx-auto mb-8">
+      <button
+        onClick={() => setOpen(!open)}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          background: '#181410',
+          border: '1px solid #2e2416',
+          padding: '12px 20px',
+          cursor: 'pointer',
+          width: '100%',
+          transition: 'border-color 0.3s',
+        }}
+        onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#b89830'; }}
+        onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#2e2416'; }}
+      >
+        <span
+          style={{
+            fontFamily: "'Cinzel', serif",
+            fontSize: '14px',
+            fontWeight: 700,
+            letterSpacing: '3px',
+            textTransform: 'uppercase',
+            color: '#e8d068',
+          }}
+        >
+          Tag Descriptions
+        </span>
+        <span
+          style={{
+            color: '#c4b48a',
+            fontSize: '12px',
+            transition: 'transform 0.3s',
+            transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
+            display: 'inline-block',
+          }}
+        >
+          &#9660;
+        </span>
+      </button>
+      {open && (
+        <div
+          style={{
+            background: '#181410',
+            borderLeft: '1px solid #2e2416',
+            borderRight: '1px solid #2e2416',
+            borderBottom: '1px solid #2e2416',
+            padding: '16px 20px',
+          }}
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {Object.entries(tagDescriptions).map(([tag, desc]) => {
+              const s = TAG_STYLES[tag] || DEFAULT_TAG_STYLE;
+              return (
+                <div key={tag} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                  <span
+                    style={{
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      letterSpacing: '1px',
+                      textTransform: 'uppercase',
+                      color: s.color,
+                      background: s.bg,
+                      border: `1px solid ${s.border}`,
+                      padding: '3px 8px',
+                      flexShrink: 0,
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: s.color, display: 'inline-block', marginRight: '6px', verticalAlign: 'middle' }} />
+                    {tag}
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontSize: '15px',
+                      color: '#c4b48a',
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    <RichDescription text={desc} />
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Partner Connections */}
+          {partnerConnections.length > 0 && (
+            <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #2e2416' }}>
+              <div
+                style={{
+                  fontFamily: "'Cinzel', serif",
+                  fontSize: '13px',
+                  fontWeight: 700,
+                  letterSpacing: '2px',
+                  textTransform: 'uppercase',
+                  color: TAG_STYLES.Partner.color,
+                  marginBottom: '12px',
+                }}
+              >
+                Partner Connections
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {partnerConnections.map(([, , desc], i) => (
+                  <div
+                    key={i}
+                    style={{
+                      padding: '10px 14px',
+                      background: 'rgba(216,152,232,0.04)',
+                      border: '1px solid rgba(216,152,232,0.15)',
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "'Cormorant Garamond', serif",
+                        fontSize: '15px',
+                        color: '#c4b48a',
+                        lineHeight: 1.6,
+                      }}
+                    >
+                      <RichDescription text={desc} />
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function SectionHeading({ title, subtitle }) {
   return (
@@ -223,6 +394,8 @@ export default function TierList() {
 
       <section className="relative py-16 px-6 md:px-12">
         <SectionHeading title="Tier List" subtitle="Current meta ranking by role" />
+
+        <TagDescriptionBox />
 
         <div
           className="max-w-[1400px] mx-auto"

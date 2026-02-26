@@ -1,21 +1,22 @@
-# Genshin Impact Fan Website
+# Genshin Impact Fan Site
 
-A Genshin Impact fan website built with React, Tailwind CSS, and dnd-kit, featuring character showcases, tier lists, and an interactive tier list maker.
-
-## Features
-
-- **Home Page**: Landing page with navigation to all features
-- **Characters Page**: Browse all Genshin Impact characters with filtering by element and search functionality
-- **Tier List**: View a community-curated tier list ranking characters by performance
-- **Tier List Maker**: Create your own custom tier list using drag-and-drop functionality
+A fan-made compendium for Genshin Impact featuring character databases, tier lists, and endgame guides.
 
 ## Tech Stack
 
-- **React**: UI library
-- **Vite**: Build tool and dev server
-- **Tailwind CSS**: Utility-first CSS framework
-- **dnd-kit**: Modern drag-and-drop toolkit for React
-- **React Router**: Client-side routing
+- **React 19** with React Router 7
+- **Vite 7** for development and builds
+- **Tailwind CSS 3** for utility styling
+- **@dnd-kit** for drag-and-drop tier list maker
+- **html-to-image** for PNG export
+
+## Features
+
+- **Characters** — Browse all playable characters with filters for element, weapon, and rarity
+- **Tier List** — Meta rankings organized by role (Main DPS, Sub DPS, Support, Sustain) with character tags (Expert, F2P Friendly, etc.)
+- **Tier List Maker** — Drag-and-drop custom tier list builder with PNG export
+- **Endgame** — Guides for Spiral Abyss, Imaginarium Theatre, and Stygian Onslaught
+  - Spiral Abyss floor layouts with enemy info and recommended team compositions
 
 ## Getting Started
 
@@ -25,77 +26,54 @@ A Genshin Impact fan website built with React, Tailwind CSS, and dnd-kit, featur
 
 ### Installation
 
-1. Install dependencies:
 ```bash
+# Install dependencies
 npm install
-```
 
-2. Start the development server:
-```bash
+# Start dev server
 npm run dev
-```
 
-3. Open your browser and navigate to `http://localhost:5173`
-
-### Building for Production
-
-```bash
+# Build for production
 npm run build
+
+# Refresh character data from Enka Network
+npm run fetch:characters
 ```
 
-The production-ready files will be in the `dist` folder.
+Open your browser and navigate to `http://localhost:5173`.
 
 ## Project Structure
 
 ```
 src/
-├── components/          # Reusable components
-│   ├── Navbar.jsx      # Navigation bar
-│   ├── CharacterCard.jsx
-│   ├── TierRow.jsx
-│   ├── CharacterPool.jsx
+├── components/              # Reusable components
+│   ├── Navbar.jsx           # Navigation bar with dropdowns
+│   ├── CharacterCard.jsx    # Character display card
+│   ├── CharacterPool.jsx    # Unranked character pool (tier maker)
+│   ├── TierRow.jsx          # Draggable tier row (tier maker)
 │   └── DraggableCharacter.jsx
-├── pages/              # Page components
-│   ├── Home.jsx
-│   ├── Characters.jsx
-│   ├── TierList.jsx
-│   └── TierListMaker.jsx
-├── data/               # Data files
-│   ├── characters.js   # Character data
-│   └── tierList.js     # Default tier list
-└── App.jsx             # Main app component with routing
+├── pages/                   # Route pages
+│   ├── Home.jsx             # Landing page
+│   ├── Characters.jsx       # Character browser with filters
+│   ├── TierList.jsx         # Static tier list by role
+│   ├── TierListMaker.jsx    # Drag-and-drop tier maker
+│   ├── Endgame.jsx          # Endgame hub
+│   ├── SpiralAbyss.jsx      # Spiral Abyss floor guide
+│   ├── ImaginariumTheatre.jsx
+│   └── StygianOnslaught.jsx
+├── data/                    # Data files
+│   ├── characters.js        # Character data (auto-generated from Enka Network)
+│   ├── tierList.js          # Role-based tier lists and character tags
+│   └── spiralAbyss.js       # Spiral Abyss floor data
+└── App.jsx                  # Router and route definitions
 ```
-
-## Features Detail
-
-### Characters Page
-- View all characters with their stats (element, weapon, rarity, role)
-- Filter by element
-- Search by character name
-- Color-coded by element type
-
-### Tier List Maker
-- Drag and drop characters between tiers (S, A, B, C, D)
-- Visual feedback during dragging
-- Reset functionality to start over
-- Fully responsive design
 
 ## Customization
 
-To add more characters, edit `src/data/characters.js` and add new character objects with the following structure:
+Character data is auto-generated from [Enka Network](https://enka.network/). Run `npm run fetch:characters` to refresh.
 
-```javascript
-{
-  id: 'character-id',
-  name: 'Character Name',
-  element: 'Pyro|Hydro|Electro|Cryo|Anemo|Geo|Dendro',
-  weapon: 'Sword|Claymore|Polearm|Bow|Catalyst',
-  rarity: 4|5,
-  role: 'DPS|Support',
-  icon: '🔥', // emoji icon
-}
-```
+To edit tier placements, modify `src/data/tierList.js`. To edit Spiral Abyss data (enemies, recommended teams), modify `src/data/spiralAbyss.js`.
 
-## License
+## Disclaimer
 
-This is a fan-made project and is not affiliated with miHoYo/HoYoverse.
+Genshin Impact™ is a trademark of HoYoverse. This is a fan project and is not affiliated with or endorsed by HoYoverse.
