@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "fetch:characters": "node scripts/fetch-characters.js"
+    "fetch:characters": "node scripts/fetch-characters.js",
+    "fetch:enemies": "node scripts/fetch-enemies.js"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

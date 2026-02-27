@@ -1,4 +1,5 @@
 import { characters } from '../data/characters';
+import { enemies } from '../data/enemies';
 import { useStygianData } from '../hooks/useStygianData';
 
 function CharacterIcon({ characterId }) {
@@ -49,6 +50,11 @@ function CharacterIcon({ characterId }) {
 }
 
 function BossCard({ boss, index }) {
+  // Look up enemy by enemyId (kebab-case) or fall back to name match
+  const enemy = boss.enemyId
+    ? enemies.find((e) => e.id === boss.enemyId)
+    : enemies.find((e) => e.name.toLowerCase() === boss.name.toLowerCase());
+
   return (
     <div
       style={{
@@ -59,7 +65,7 @@ function BossCard({ boss, index }) {
         minWidth: '250px',
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
         <span
           style={{
             fontFamily: "'Cinzel', serif",
@@ -71,6 +77,21 @@ function BossCard({ boss, index }) {
         >
           {index + 1}
         </span>
+        {enemy?.image && (
+          <img
+            src={enemy.image}
+            alt={boss.name}
+            style={{
+              width: '48px',
+              height: '48px',
+              objectFit: 'contain',
+              borderRadius: '4px',
+              border: '1px solid #2e2416',
+              background: '#0f0d0a',
+            }}
+            loading="lazy"
+          />
+        )}
         <span
           style={{
             fontFamily: "'Cinzel', serif",
