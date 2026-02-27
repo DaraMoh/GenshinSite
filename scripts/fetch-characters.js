@@ -1,6 +1,8 @@
 /**
- * Fetches character data from Enka Network's static assets and writes
+ * Fetches character data from genshin-db-api and writes
  * src/data/characters.js. Run with: npm run fetch:characters
+ *
+ * Change API_BASE when self-hosting the API.
  */
 
 import { writeFileSync } from 'fs';
@@ -9,95 +11,116 @@ import { dirname, join } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const CHARACTERS_URL = 'https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/characters.json';
-const LOC_URL = 'https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/loc.json';
-const ICON_BASE = 'https://enka.network/ui/';
+const API_BASE = 'https://genshin-db-api.vercel.app/api/v5';
+const CONCURRENCY = 5;
 
-// Map Enka element names to our display names
-const ELEMENT_MAP = {
-  Fire:     'Pyro',
-  Water:    'Hydro',
-  Wind:     'Anemo',
-  Electric: 'Electro',
-  Rock:     'Geo',
-  Ice:      'Cryo',
-  Grass:    'Dendro',
-};
+// Skip these names — Traveler variants are generated manually below
+const SKIP_NAMES = new Set(['Lumine', 'Aether']);
 
-// Map Enka weapon type keys to display names
-const WEAPON_MAP = {
-  WEAPON_SWORD_ONE_HAND: 'Sword',
-  WEAPON_CLAYMORE:       'Claymore',
-  WEAPON_POLE:           'Polearm',
-  WEAPON_BOW:            'Bow',
-  WEAPON_CATALYST:       'Catalyst',
-};
+// Traveler element variants (Aether icon shared across all)
+const TRAVELER_ELEMENTS = ['Anemo', 'Geo', 'Electro', 'Dendro', 'Hydro', 'Pyro'];
 
-// Female traveler — skip entirely (keep only male 10000005)
-const SKIP_IDS = new Set([
-  '10000007',
-]);
-
-console.log('Fetching characters.json...');
-const charsRes = await fetch(CHARACTERS_URL);
-const charsData = await charsRes.json();
-
-console.log('Fetching loc.json...');
-const locRes = await fetch(LOC_URL);
-const locData = await locRes.json();
-const en = locData.en;
-
-const characters = [];
-const seenIds = new Set(); // deduplicate by charId
-
-for (const [id, data] of Object.entries(charsData)) {
-  if (SKIP_IDS.has(id)) continue;
-
-  // Skip internal/test characters (IDs >= 11000000)
-  if (parseInt(id) >= 11000000) continue;
-
-  const name = en[String(data.NameTextMapHash)];
-  if (!name) continue;
-
-  // Skip trial characters
-  if (name.includes('(Trial)')) continue;
-
-  // Skip characters with no real element mapping (future/test)
-  const element = ELEMENT_MAP[data.Element];
-  if (!element) continue;
-
-  const weapon = WEAPON_MAP[data.WeaponType];
-  if (!weapon) continue;
-
-  const rarity = data.QualityType === 'QUALITY_ORANGE' || data.QualityType === 'QUALITY_ORANGE_SP' ? 5 : 4;
-
-  // Build a stable kebab-case id from the name
-  const charId = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-
-  // Deduplicate: skip if we already have this character
-  if (seenIds.has(charId)) continue;
-  seenIds.add(charId);
-
-  // Icon: use SideIconName to build the portrait URL
-  const iconUrl = data.SideIconName
-    ? `${ICON_BASE}${data.SideIconName.replace('_Side', '')}.png`
-    : null;
-
-  characters.push({ id: charId, enkaId: parseInt(id), name, element, weapon, rarity, image: iconUrl });
+/**
+ * Fetch with concurrency limit.
+ */
+async function fetchAllCharacters(names) {
+  const results = [];
+  for (let i = 0; i < names.length; i += CONCURRENCY) {
+    const batch = names.slice(i, i + CONCURRENCY);
+    const batchResults = await Promise.all(
+      batch.map(async (name) => {
+        const url = `${API_BASE}/characters?query=${encodeURIComponent(name)}`;
+        const res = await fetch(url);
+        if (!res.ok) {
+          console.warn(`  ⚠ Failed to fetch "${name}" (${res.status})`);
+          return null;
+        }
+        return res.json();
+      })
+    );
+    results.push(...batchResults);
+    if (i + CONCURRENCY < names.length) {
+      process.stdout.write(`  Fetched ${Math.min(i + CONCURRENCY, names.length)}/${names.length}...\r`);
+    }
+  }
+  return results;
 }
 
-// Sort: 5-stars first, then alphabetically
+// 1. Get all character names
+console.log('Fetching character names...');
+const namesRes = await fetch(`${API_BASE}/characters?query=names&matchCategories=true`);
+const allNames = await namesRes.json();
+console.log(`Found ${allNames.length} character names.`);
+
+// 2. Filter out skipped names
+const namesToFetch = allNames.filter((n) => !SKIP_NAMES.has(n));
+
+// 3. Fetch each character
+console.log('Fetching character details...');
+const rawCharacters = await fetchAllCharacters(namesToFetch);
+console.log(`\nFetched ${rawCharacters.filter(Boolean).length} characters successfully.`);
+
+// 4. Map to our format
+const characters = [];
+const seenIds = new Set();
+
+for (const data of rawCharacters) {
+  if (!data) continue;
+
+  const name = data.name;
+  if (!name) continue;
+
+  const element = data.elementText;
+  const weapon = data.weaponText;
+  if (!element || !weapon) continue;
+
+  const rarity = data.rarity;
+  if (rarity !== 4 && rarity !== 5) continue;
+
+  // Build stable kebab-case id
+  const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+  // Deduplicate
+  if (seenIds.has(id)) continue;
+  seenIds.add(id);
+
+  const image = data.images?.hoyowiki_icon || data.images?.mihoyo_icon || null;
+
+  characters.push({ id, name, element, weapon, rarity, image });
+}
+
+// 5. Add Traveler element variants
+// Fetch Aether once for the icon, then create one entry per element
+const aetherRes = await fetch(`${API_BASE}/characters?query=Aether`);
+const aetherData = await aetherRes.json();
+const aetherIcon = aetherData?.images?.hoyowiki_icon || aetherData?.images?.mihoyo_icon || null;
+
+for (const element of TRAVELER_ELEMENTS) {
+  const id = `traveler-${element.toLowerCase()}`;
+  if (!seenIds.has(id)) {
+    seenIds.add(id);
+    characters.push({
+      id,
+      name: `Traveler (${element})`,
+      element,
+      weapon: 'Sword',
+      rarity: 5,
+      image: aetherIcon,
+    });
+  }
+}
+
+// 6. Sort: 5-stars first, then alphabetically
 characters.sort((a, b) => {
   if (b.rarity !== a.rarity) return b.rarity - a.rarity;
   return a.name.localeCompare(b.name);
 });
 
-// Generate the file content
+// 7. Generate file
 const charLines = characters.map((c) => {
   const image = c.image ? `'${c.image}'` : 'null';
   return `  {
     id: '${c.id}',
-    enkaId: ${c.enkaId},
     name: '${c.name.replace(/'/g, "\\'")}',
     element: '${c.element}',
     weapon: '${c.weapon}',
@@ -107,7 +130,7 @@ const charLines = characters.map((c) => {
 });
 
 const output = `// Auto-generated by scripts/fetch-characters.js
-// Source: Enka Network (https://github.com/EnkaNetwork/API-docs)
+// Source: genshin-db-api (https://github.com/theBowja/genshin-db-api)
 // Run \`npm run fetch:characters\` to regenerate.
 
 export const characters = [

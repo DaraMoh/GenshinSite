@@ -6,7 +6,7 @@ export const roleTierLists = {
     A: ['hu-tao', 'alhaitham', 'raiden-shogun', 'sethos', 'cyno', 'ifa'],
     B: ['xiao', 'wriothesley', 'ganyu', 'razor', 'sangonomiya-kokomi', 'arataki-itto', 'diluc', 'yumemizuki-mizuki'],
     C: ['tighnari', 'traveler-pyro', 'ningguang', 'yae-miko', 'noelle', 'shikanoin-heizou'],
-    D: ['eula', 'keqing', 'hydro-traveler'],
+    D: ['eula', 'keqing', 'traveler-hydro'],
   },
   'Sub DPS': {
     'S+': ['ineffa', 'escoffier', 'columbina', 'durin', 'furina'],

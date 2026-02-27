@@ -96,6 +96,10 @@ To add more characters, edit `src/data/characters.js` and add new character obje
 }
 ```
 
+## Credits
+
+Character data sourced from [genshin-db](https://github.com/theBowja/genshin-db) via [genshin-db-api](https://github.com/theBowja/genshin-db-api).
+
 ## License
 
 This is a fan-made project and is not affiliated with miHoYo/HoYoverse.
